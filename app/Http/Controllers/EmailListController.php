@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EmailList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class EmailListController extends Controller
 {
@@ -23,7 +24,7 @@ class EmailListController extends Controller
      */
     public function create()
     {
-        //
+        return view('email-list.create');
     }
 
     /**
@@ -31,7 +32,14 @@ class EmailListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $data = $request->validate([
+            'title' => ['required', 'max:255'],
+            'csv' => ['required', 'file', 'mimes:csv']
+        ]);
+
+        EmailList::query()->create($data);
+
+        return Redirect::route('email-list.index')->with('status', 'Email list-created');
     }
 
     /**
