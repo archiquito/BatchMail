@@ -11,6 +11,8 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="stylesheet" href="https://unpkg.com/lucide-static@latest/font/lucide.css" />
     <link rel="icon" href="{{ asset('/favicon.png') }}" type="image/png">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])

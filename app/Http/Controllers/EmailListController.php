@@ -7,6 +7,7 @@ use App\Models\EmailList;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class EmailListController extends Controller
@@ -38,16 +39,15 @@ class EmailListController extends Controller
         $data = $request->validated();
 
         /** @var User $user */
-        // /** @var EmailList $list */
         $user = Auth::user();
 
         $handleFile = $request->processCsv($data['csv']->getRealPath());
         if ($handleFile) {
-            //dd($handleFile, $handleFile['name']);
-            $emailList = EmailList::query()->create(['title' => $data['title'], 'user_id' => $user->id]);
-            $emailList->subscribers()->createMany($handleFile);
+            DB::transaction(function () use ($data, $handleFile, $user) {
+                $emailList = EmailList::query()->create(['title' => $data['title'], 'user_id' => $user->id]);
+                $emailList->subscribers()->createMany($handleFile);
+            });
         }
-
 
         return Redirect::route('email-list.index')->with('status', 'Email list-created');
     }
@@ -81,6 +81,8 @@ class EmailListController extends Controller
      */
     public function destroy(EmailList $emailList)
     {
-        //
+        dd('entrou');
+        $emailList->delete();
+        return redirect()->route('email-list.index')->with('message', 'Lista excluída com sucesso!');
     }
 }

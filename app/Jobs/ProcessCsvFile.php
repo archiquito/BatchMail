@@ -46,7 +46,7 @@ class ProcessCsvFile implements ShouldQueue
             $records = $csv->getRecords();
 
             // 4. Use uma transação de banco de dados para evitar dados inconsistentes
-            DB::beginTransaction();
+            
 
             foreach ($records as $record) {
                 // Aqui você insere a lógica para salvar no banco de dados.

@@ -7,43 +7,19 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center space-y-3">
-                    <x-link :href="route('email-list.create')">{{ __('Create list') }}</x-link>
-                    @forelse ($emailList as $list)
-                    <div class="overflow-x-auto rounded border border-gray-500 p-4 w-[50%]">
-                        <table class="table w-full text-left">
-                            <!-- head -->
-                            <thead>
-                                <tr>
-                                    <th>{{ __('Title list') }}</th>
-                                    <th class="text-right">{{ __('Actions') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{$list->title}}</td>
-                                    <td>
-                                        <div class="flex justify-end space-x-4">
-                                        <x-link :href="route('email-list.edit', $list->id)">{{ __('Edit') }}</x-link>
-                                        <x-form id="delete-form-{{ $list->id }}" delete :route="route('email-list.destroy', $list->id)">
-                                            <x-secondary-button
-                                                data-form-id="delete-form-{{ $list->id }}">
-                                                {{ __('Delete') }}
-                                            </x-secondary-button>
-                                        </x-form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    @empty
+                    @if($emailList->isEmpty())
                     <img src="assets/images/img-list.png" />
                     <p class="text-xs">Você ainda não criou nenhuma lista.</p>
                     <x-link :href="route('email-list.create')">Criar lista</x-link>
-                    @endforelse
-
+                    @else
+                    <div class="flex justify-start w-full space-x-4 grid-cols-2 items-stretch">
+                        <x-link :href="route('email-list.create')" class="rounded-md dark:bg-blue-800 dark:hover:bg-blue-900 dark:border-blue-900 whitespace-nowrap">{{ __('Create list') }}</x-link>
+                        <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" placeholder="pesquisar" />
+                    </div>
+                    <x-table :listHeader="['Title List', 'Qtd. Subscribers', 'Actions']" :listBody="$emailList" />
+                    @endif
                 </div>
             </div>
         </div>
