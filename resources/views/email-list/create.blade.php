@@ -10,7 +10,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-col justify-center items-center space-y-3">
 
-                    <x-form :route="route('email-list.store')" post class="mt-6 space-y-6">
+                    <x-form :route="route('email-list.store')" post class="mt-6 space-y-6" enctype="multipart/form-data">
                         <div>
                             <x-input-label for="title" :value="__('Campaign title')" />
                             <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" placeholder="Escolha um nome para sua lista" />

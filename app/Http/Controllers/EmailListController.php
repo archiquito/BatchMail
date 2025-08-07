@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmailListRequest;
 use App\Models\EmailList;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -15,8 +17,9 @@ class EmailListController extends Controller
     public function index()
     {
         /** @var User $user */
+        // /** @var EmailList $list */
         $user = Auth::user();
-        return view('email-list.index', ['emailList' => EmailList::query()->paginate()]);
+        return view('email-list.index', ['emailList' => $user->emailList()->get()]);
     }
 
     /**
@@ -30,14 +33,21 @@ class EmailListController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EmailListRequest $request)
     {
-       $data = $request->validate([
-            'title' => ['required', 'max:255'],
-            'csv' => ['required', 'file', 'mimes:csv']
-        ]);
+        $data = $request->validated();
 
-        EmailList::query()->create($data);
+        /** @var User $user */
+        // /** @var EmailList $list */
+        $user = Auth::user();
+
+        $handleFile = $request->processCsv($data['csv']->getRealPath());
+        if ($handleFile) {
+            //dd($handleFile, $handleFile['name']);
+            $emailList = EmailList::query()->create(['title' => $data['title'], 'user_id' => $user->id]);
+            $emailList->subscribers()->createMany($handleFile);
+        }
+
 
         return Redirect::route('email-list.index')->with('status', 'Email list-created');
     }
