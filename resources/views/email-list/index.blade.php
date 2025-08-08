@@ -16,7 +16,9 @@
                     @else
                     <div class="flex justify-start w-full space-x-4 grid-cols-2 items-stretch">
                         <x-link :href="route('email-list.create')" class="rounded-md dark:bg-blue-800 dark:hover:bg-blue-900 dark:border-blue-900 whitespace-nowrap">{{ __('Create list') }}</x-link>
-                        <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" placeholder="pesquisar" />
+                        <x-form :route="route('email-list.search')" post class="w-full">
+                            <x-text-input id="search" class="block mt-1 w-full" type="text" name="search" :value="old('search')" :placeholder="__('Search')" />
+                        </x-form>
                     </div>
                     <x-table :listHeader="['Title List', 'Qtd. Subscribers', 'Actions']" :listBody="$emailList" />
                     @endif

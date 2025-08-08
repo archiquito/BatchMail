@@ -12,17 +12,17 @@
 
                     <x-form :route="route('email-list.store')" post class="mt-6 space-y-6" enctype="multipart/form-data">
                         <div>
-                            <x-input-label for="title" :value="__('Campaign title')" />
+                            <x-input-label for="title" :value="__('List email tittle')" />
                             <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" placeholder="Escolha um nome para sua lista" />
                             <x-input-error :messages="$errors->get('title')" class="mt-2" />
                         </div>
                         <div>
-                            <x-input-label for="csv" :value="__('Email list')" />
+                            <x-input-label for="csv" :value="__('Email list file')" />
                             <x-text-input id="csv" class="block mt-1 w-full" type="file" name="csv" :value="old('csv')" placeholder="Faça o upload do arquivo CSV" />
                             <x-input-error :messages="$errors->get('csv')" class="mt-2" />
                         </div>
                         <div class="flex items-center justify-end mt-4">
-                            <x-link :href="route('email-list.index')" class="ms-3">
+                            <x-link :href="route('email-list.index')" class="ms-3 rounded-md">
                                 {{ __('Back') }}
                             </x-link>
                             <x-primary-button class="ms-3">

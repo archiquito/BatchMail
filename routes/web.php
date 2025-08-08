@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/email-list/{list}/edit', [EmailListController::class, 'edit'])->name('email-list.edit');
     Route::put('/email-list/{list}/update', [EmailListController::class, 'update'])->name('email-list.update');
     Route::delete('/email-list/{list}', [EmailListController::class, 'destroy'])->name('email-list.destroy');
+    Route::post('/email-list/search', [EmailListController::class, 'search'])->name('email-list.search');
 });
 
 require __DIR__ . '/auth.php';

@@ -65,7 +65,10 @@ class EmailListController extends Controller
      */
     public function edit(EmailList $emailList)
     {
-        //
+        /** @var User $user */
+        // /** @var EmailList $list */
+        $user = Auth::user();
+        return view('email-list.edit', ['emailList' => $user->emailList()->subscribers()->get()]);
     }
 
     /**
@@ -84,5 +87,16 @@ class EmailListController extends Controller
         dd('entrou');
         $emailList->delete();
         return redirect()->route('email-list.index')->with('message', 'Lista excluída com sucesso!');
+    }
+
+    public function search(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $search = $request->input('search');
+
+        $emailList = $user->emailList()->where('title', 'like', '%' . $search . '%')->get();
+
+        return view('email-list.index', compact('emailList'));
     }
 }
